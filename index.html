@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feliz Cumpleaños</title>
+    <title>Feliz Cumpleaños ELI</title>
     <style>
         body {
             display: flex;
@@ -68,6 +68,16 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); }
         }
+        .center-circle {
+            position: absolute;
+            width: 30px; /* Tamaño del círculo */
+            height: 30px;
+            background-color: yellow; /* Color del círculo */
+            border-radius: 50%; /* Asegura que sea un círculo */
+            top: 35px; /* Ajusta la posición verticalmente para que esté en el centro */
+            left: 35px; /* Ajusta la posición horizontalmente para que esté en el centro */
+            z-index: 1; /* Asegura que esté por encima de los pétalos */
+        }
         button {
             margin-top: 0px;
             padding: 10px 10px;
@@ -106,7 +116,7 @@
         }
         .cake-container {
             position: absolute;
-            bottom: 80px;
+            bottom: 50px;
             display: flex;
             justify-content: center;
             width: 100%;
@@ -153,6 +163,16 @@
             border-radius: 50%;
             animation: flicker 0.5s alternate infinite;
         }
+        .cake-text {
+            font-size: 2.5em; /* Tamaño de fuente */
+            color: white; /* Color del texto */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.623); /* Sombra del texto */
+            font-family: 'Pacifico', cursive; /* Fuente personalizada */
+            display: flex; /* Alineación central */
+            justify-content: center; /* Alineación horizontal central */
+            align-items: center; /* Alineación vertical central */
+            height: 100%; /* Altura del contenedor */
+        }
         .hidden-flame {
             display: none;
         }
@@ -164,15 +184,19 @@
 </head>
 <body>
     <h1>Feliz Cumpleaños</h1>
-    <div class="birthday-name">[Nombre de la Cumpleañera]</div>
+    <div class="birthday-name">Elizabeth H. A.</div>
     <div class="flower-container" id="flowerContainer">
         <!-- Flores se generarán aquí -->
     </div>
     <div class="cake-container">
         <div class="cake">
             <div class="layer"></div>
-            <div class="layer"></div>
-            <div class="layer"></div>
+            <div class="layer">
+                <span class="cake-text">24</span>
+            </div>
+            <div class="layer">
+                <span class="cake-text">años</span>
+            </div>
             <div class="candle">
                 <div class="flame hidden-flame"></div>
             </div>
@@ -184,12 +208,12 @@
             </div>
         </div>
     </div>
-    <div class="sender-name">De LimberRB_2024</div>
+    <div class="sender-name">LRB 2024</div>
     <button onclick="showSurprise()">Prender</button>
     <div id="balloonsContainer" class="hidden"></div>
     <script>
         function getRandomColor() {
-            const colors = ['pink', 'yellow', 'red', 'blue', 'purple', 'orange'];
+            const colors = ['pink', 'green', 'red', 'blue', 'purple', 'orange'];
             return colors[Math.floor(Math.random() * colors.length)];
         }
 
@@ -205,6 +229,10 @@
                 petal.style.backgroundColor = flowerColor;
                 flower.appendChild(petal);
             }
+
+            const center = document.createElement('div');
+            center.classList.add('center-circle'); // Agregar una clase para el círculo central
+            flower.appendChild(center);
 
             const stem = document.createElement('div');
             stem.classList.add('stem');

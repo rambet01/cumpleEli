@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffe4e1;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            color: #ff69b4;
+            margin: 20px 0;
+            text-shadow: 2px 2px #ff1493;
+        }
+        .birthday-name, .sender-name {
+            font-size: 2em;
+            color: #ff69b4;
+            margin: 1px 0;
+            text-shadow: 1px 1px #ff1493;
+        }
+        .flower-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100vw;
+            height: 40vh;
+            position: relative;
+        }
+        .flower {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            border-radius: 50%;
+            animation: bloom 2s ease-in-out infinite;
+            margin: 10px;
+        }
+        .petal {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            border-radius: 50%;
+        }
+        .petal:nth-child(1) { top: -25px; left: 25px; }
+        .petal:nth-child(2) { top: 25px; right: -25px; }
+        .petal:nth-child(3) { bottom: -25px; left: 25px; }
+        .petal:nth-child(4) { top: 25px; left: -25px; }
+        .stem {
+            position: absolute;
+            bottom: -60px;
+            left: 45px;
+            width: 10px;
+            height: 60px;
+            background-color: green;
+        }
+        @keyframes bloom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        button {
+            margin-top: 0px;
+            padding: 10px 10px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #ff69b4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .balloon {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50% 50% 0 0;
+            animation: float 5s ease-in-out infinite;
+        }
+        .balloon:before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 2px;
+            height: 10px;
+            background-color: red;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .cake-container {
+            position: absolute;
+            bottom: 80px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        .cake {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background-color: #ffcc99;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+        .layer {
+            position: absolute;
+            width: 180px;
+            height: 60px;
+            background-color: #ff9966;
+            border-radius: 10px;
+            left: 10px;
+        }
+        .layer:nth-child(2) { top: 60px; }
+        .layer:nth-child(3) { top: 120px; }
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 40px;
+            background-color: yellow;
+            top: -40px;
+            border-radius: 2px;
+        }
+        .candle:nth-child(4) { left: 40px; }
+        .candle:nth-child(5) { left: 90px; }
+        .candle:nth-child(6) { left: 140px; }
+        .flame {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background-color: orange;
+            top: -20px;
+            border-radius: 50%;
+            animation: flicker 0.5s alternate infinite;
+        }
+        .hidden-flame {
+            display: none;
+        }
+        @keyframes flicker {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Feliz Cumpleaños</h1>
+    <div class="birthday-name">[Nombre de la Cumpleañera]</div>
+    <div class="flower-container" id="flowerContainer">
+        <!-- Flores se generarán aquí -->
+    </div>
+    <div class="cake-container">
+        <div class="cake">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="candle">
+                <div class="flame hidden-flame"></div>
+            </div>
+            <div class="candle">
+                <div class="flame hidden-flame"></div>
+            </div>
+            <div class="candle">
+                <div class="flame hidden-flame"></div>
+            </div>
+        </div>
+    </div>
+    <div class="sender-name">[Nombre del Remitente]</div>
+    <button onclick="showSurprise()">Prender</button>
+    <div id="balloonsContainer" class="hidden"></div>
+    <script>
+        function getRandomColor() {
+            const colors = ['pink', 'yellow', 'red', 'blue', 'purple', 'orange'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            const flowerColor = getRandomColor();
+            flower.style.backgroundColor = flowerColor;
+
+            for (let i = 0; i < 4; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.backgroundColor = flowerColor;
+                flower.appendChild(petal);
+            }
+
+            const stem = document.createElement('div');
+            stem.classList.add('stem');
+            flower.appendChild(stem);
+
+            return flower;
+        }
+
+        function initFlowers() {
+            const flowerContainer = document.getElementById('flowerContainer');
+            for (let i = 0; i < 7; i++) {
+                const flower = createFlower();
+                flowerContainer.appendChild(flower);
+            }
+        }
+
+        function showBalloons() {
+            const balloonsContainer = document.getElementById('balloonsContainer');
+            balloonsContainer.classList.remove('hidden');
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.left = `${Math.random() * 90}vw`;
+                balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                balloonsContainer.appendChild(balloon);
+            }
+        }
+
+        function showSurprise() {
+            const flames = document.querySelectorAll('.flame');
+            flames.forEach(flame => flame.classList.remove('hidden-flame'));
+            showBalloons();
+        }
+
+        // Inicializar flores al cargar la página
+        window.onload = initFlowers;
+    </script>
+</body>
+</html>
